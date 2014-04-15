@@ -142,6 +142,28 @@ static unsigned char dummy_key[21] = { 0x02, 0x11, 0xbe, 0x33, 0x43, 0x35,
                                        0x68, 0x47, 0x84, 0x99, 0xa9, 0x2b,
                                        0x1c, 0xd3, 0xee, 0xff, 0xf1, 0xe2,
                                        0xf3, 0xf4, 0xf5 };
+#ifdef BOARD_HAVE_XIAOMI
+extern int qmi_nv_read_wlan_mac(char** mac);
+// read wlan mac address from modem NV
+static unsigned char wlan_addr[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
+static char wcn_mac_arg[120];
+static int read_mac_ok = 0;
+int read_wlan_mac_addr()
+{
+    char* nv_wlan_mac = NULL;
+    ALOGV("read wlan mac addr enter.");
+    qmi_nv_read_wlan_mac(&nv_wlan_mac);
+    int i;
+    for (i=0; i<6; i++) {
+        wlan_addr[i] = nv_wlan_mac[i];
+    }
+    memset(wcn_mac_arg, 0, sizeof(wcn_mac_arg));
+    sprintf(wcn_mac_arg, "mac=0x%02x,0x%02x,0x%02x,0x%02x,0x%02x,0x%02x", wlan_addr[5], wlan_addr[4], wlan_addr[3], wlan_addr[2],wlan_addr[1],wlan_addr[0]);
+    read_mac_ok = 1;
+    ALOGV("read wlan mac addr (%s) done.", wcn_mac_arg);
+    return 0;
+}
+#endif
 
 /* Is either SUPPLICANT_NAME or P2P_SUPPLICANT_NAME */
 static char supplicant_name[PROPERTY_VALUE_MAX];
@@ -298,7 +320,13 @@ int wifi_load_driver()
     usleep(200000);
 #endif
 
+#ifdef BOARD_HAVE_XIAOMI
+        if (0 == read_mac_ok)
+        read_wlan_mac_addr();
+    if (insmod(DRIVER_MODULE_PATH, wcn_mac_arg) < 0) {
+#else
     if (insmod(DRIVER_MODULE_PATH, DRIVER_MODULE_ARG) < 0) {
+#endif
 #endif
 
 #ifdef WIFI_EXT_MODULE_NAME
