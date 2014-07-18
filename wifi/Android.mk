@@ -70,7 +70,7 @@ ifeq ($(BOARD_HAVE_SAMSUNG_WIFI),true)
 LOCAL_CFLAGS += -DSAMSUNG_WIFI
 endif
 
-ifeq ($(BOARD_HAVE_XIAOMI),true)
+ifeq ($(BOARD_HAVE_XIAOMI_ARIES),true)
 $(shell mkdir -p $(OUT)/obj/SHARED_LIBRARIES/libqminvapi_intermediates)
 $(shell touch $(OUT)/obj/SHARED_LIBRARIES/libqminvapi_intermediates/export_includes)
 LOCAL_SHARED_LIBRARIES += libnetutils libqminvapi
