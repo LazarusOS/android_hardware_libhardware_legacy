@@ -148,7 +148,7 @@ public:
         HE_AAC_V2           = 0x06000000,
         VORBIS              = 0x07000000,
 
-#ifdef BOARD_HAVE_XIAOMI_ARIES
+#ifdef XIAOMI_ARIES_AUDIO
         EVRC                = 0x08000000,
         QCELP               = 0x09000000,
         EVRCB               = 0x10000000,

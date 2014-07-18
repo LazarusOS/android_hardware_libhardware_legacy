@@ -164,7 +164,7 @@ static unsigned char dummy_key[21] = { 0x02, 0x11, 0xbe, 0x33, 0x43, 0x35,
                                        0x68, 0x47, 0x84, 0x99, 0xa9, 0x2b,
                                        0x1c, 0xd3, 0xee, 0xff, 0xf1, 0xe2,
                                        0xf3, 0xf4, 0xf5 };
-#ifdef BOARD_HAVE_XIAOMI_ARIES
+#ifdef XIAOMI_ARIES_WIFI
 extern int qmi_nv_read_wlan_mac(char** mac);
 // read wlan mac address from modem NV
 static unsigned char wlan_addr[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
@@ -395,7 +395,7 @@ int wifi_load_driver()
     usleep(200000);
 #endif
 
-#ifdef BOARD_HAVE_XIAOMI_ARIES
+#ifdef XIAOMI_ARIES_WIFI
         if (0 == read_mac_ok)
         read_wlan_mac_addr();
     if (insmod(DRIVER_MODULE_PATH, wcn_mac_arg) < 0) {
