@@ -76,5 +76,12 @@ $(shell touch $(OUT)/obj/SHARED_LIBRARIES/libqminvapi_intermediates/export_inclu
 LOCAL_SHARED_LIBRARIES += libnetutils libqminvapi
 LOCAL_CFLAGS += -DXIAOMI_ARIES_WIFI
 else
+ifeq ($(BOARD_HAVE_XIAOMI_ARMANI),true)
+$(shell mkdir -p $(OUT)/obj/SHARED_LIBRARIES/libqminvapi_intermediates)
+$(shell touch $(OUT)/obj/SHARED_LIBRARIES/libqminvapi_intermediates/export_includes)
+LOCAL_SHARED_LIBRARIES += libnetutils libqminvapi
+LOCAL_CFLAGS += -DXIAOMI_ARIES_WIFI
+else
 LOCAL_SHARED_LIBRARIES += libnetutils
+endif
 endif
